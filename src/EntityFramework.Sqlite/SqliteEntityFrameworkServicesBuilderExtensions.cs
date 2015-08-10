@@ -52,7 +52,8 @@ namespace Microsoft.Framework.DependencyInjection
         private static IServiceCollection AddQuery(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddScoped<SqliteQueryCompilationContextFactory>();
+                .AddScoped<SqliteQueryCompilationContextFactory>()
+                .AddTransient<SqliteQueryCompilationContext>();
         }
     }
 }

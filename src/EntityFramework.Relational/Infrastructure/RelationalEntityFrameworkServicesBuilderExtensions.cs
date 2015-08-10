@@ -69,7 +69,8 @@ namespace Microsoft.Data.Entity.Infrastructure
         private static IServiceCollection AddQuery(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddScoped<RelationalQueryContextFactory>();
+                .AddScoped<RelationalQueryContextFactory>()
+                .AddScoped<RelationalResultOperatorHandler>();
         }
 
         private static IRelationalDatabaseProviderServices GetProviderServices(IServiceProvider serviceProvider)

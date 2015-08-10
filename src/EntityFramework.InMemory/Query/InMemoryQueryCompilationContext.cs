@@ -14,15 +14,15 @@ namespace Microsoft.Data.Entity.Query
     {
         public InMemoryQueryCompilationContext(
             [NotNull] IModel model,
-            [NotNull] ILogger logger,
+            [NotNull] ILoggerFactory loggerFactory,
+            [NotNull] IResultOperatorHandler resultOperatorHandler,
             [NotNull] IEntityMaterializerSource entityMaterializerSource,
             [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
             [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource)
             : base(
                 Check.NotNull(model, nameof(model)),
-                Check.NotNull(logger, nameof(logger)),
-                new LinqOperatorProvider(),
-                new ResultOperatorHandler(),
+                Check.NotNull(loggerFactory, nameof(loggerFactory)),
+                Check.NotNull(resultOperatorHandler, nameof(resultOperatorHandler)),
                 Check.NotNull(entityMaterializerSource, nameof(entityMaterializerSource)),
                 Check.NotNull(entityKeyFactorySource, nameof(entityKeyFactorySource)),
                 Check.NotNull(clrPropertyGetterSource, nameof(clrPropertyGetterSource)))

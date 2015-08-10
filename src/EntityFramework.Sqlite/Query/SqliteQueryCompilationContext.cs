@@ -17,13 +17,11 @@ namespace Microsoft.Data.Entity.Query
     {
         public SqliteQueryCompilationContext(
             [NotNull] IModel model,
-            [NotNull] ILogger logger,
-            [NotNull] ILinqOperatorProvider linqOperatorProvider,
+            [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IResultOperatorHandler resultOperatorHandler,
             [NotNull] IEntityMaterializerSource entityMaterializerSource,
             [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource,
             [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
-            [NotNull] IQueryMethodProvider queryMethodProvider,
             [NotNull] IMethodCallTranslator compositeMethodCallTranslator,
             [NotNull] IMemberTranslator compositeMemberTranslator,
             [NotNull] IRelationalValueBufferFactoryFactory valueBufferFactoryFactory,
@@ -31,13 +29,11 @@ namespace Microsoft.Data.Entity.Query
             [NotNull] IRelationalMetadataExtensionProvider relationalExtensions)
             : base(
                 model,
-                logger,
-                linqOperatorProvider,
+                loggerFactory,
                 resultOperatorHandler,
                 entityMaterializerSource,
                 entityKeyFactorySource,
                 clrPropertyGetterSource,
-                queryMethodProvider,
                 compositeMethodCallTranslator,
                 compositeMemberTranslator,
                 valueBufferFactoryFactory,

@@ -26,13 +26,11 @@ namespace Microsoft.Data.Entity.Query
 
         protected RelationalQueryCompilationContext(
             [NotNull] IModel model,
-            [NotNull] ILogger logger,
-            [NotNull] ILinqOperatorProvider linqOperatorProvider,
+            [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IResultOperatorHandler resultOperatorHandler,
             [NotNull] IEntityMaterializerSource entityMaterializerSource,
             [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
             [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource,
-            [NotNull] IQueryMethodProvider queryMethodProvider,
             [NotNull] IMethodCallTranslator compositeMethodCallTranslator,
             [NotNull] IMemberTranslator compositeMemberTranslator,
             [NotNull] IRelationalValueBufferFactoryFactory valueBufferFactoryFactory,
@@ -40,22 +38,19 @@ namespace Microsoft.Data.Entity.Query
             [NotNull] IRelationalMetadataExtensionProvider relationalExtensions)
             : base(
                 model,
-                logger,
-                linqOperatorProvider,
+                loggerFactory,
                 resultOperatorHandler,
                 entityMaterializerSource,
                 entityKeyFactorySource,
                 clrPropertyGetterSource)
 
         {
-            Check.NotNull(queryMethodProvider, nameof(queryMethodProvider));
             Check.NotNull(compositeMethodCallTranslator, nameof(compositeMethodCallTranslator));
             Check.NotNull(compositeMemberTranslator, nameof(compositeMemberTranslator));
             Check.NotNull(valueBufferFactoryFactory, nameof(valueBufferFactoryFactory));
             Check.NotNull(typeMapper, nameof(typeMapper));
             Check.NotNull(relationalExtensions, nameof(relationalExtensions));
 
-            QueryMethodProvider = queryMethodProvider;
             CompositeMethodCallTranslator = compositeMethodCallTranslator;
             CompositeMemberTranslator = compositeMemberTranslator;
             ValueBufferFactoryFactory = valueBufferFactoryFactory;
@@ -92,7 +87,7 @@ namespace Microsoft.Data.Entity.Query
                     .First();
         }
 
-        public virtual IQueryMethodProvider QueryMethodProvider { get; }
+        public virtual IQueryMethodProvider QueryMethodProvider { get; set; }
 
         public virtual IMethodCallTranslator CompositeMethodCallTranslator { get; }
 

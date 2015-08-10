@@ -342,7 +342,7 @@ namespace Microsoft.Data.Entity.Query
             }
 
             return Expression.Call(
-                handlerContext.QueryModelVisitor.LinqOperatorProvider.Cast
+                handlerContext.QueryModelVisitor.QueryCompilationContext.LinqOperatorProvider.Cast
                     .MakeGenericMethod(ofTypeResultOperator.SearchedItemType),
                 handlerContext.QueryModelVisitor.Expression);
         }

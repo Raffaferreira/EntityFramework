@@ -64,7 +64,7 @@ namespace Microsoft.Data.Entity.Query
 
         public virtual QueryCompilationContext QueryCompilationContext => _queryCompilationContext;
 
-        public virtual ILinqOperatorProvider LinqOperatorProvider => QueryCompilationContext.LinqOperatorProvider;
+        private ILinqOperatorProvider LinqOperatorProvider => QueryCompilationContext.LinqOperatorProvider;
 
         public virtual StreamedSequenceInfo StreamedSequenceInfo => _streamedSequenceInfo;
 
@@ -79,6 +79,8 @@ namespace Microsoft.Data.Entity.Query
         public virtual Func<QueryContext, IEnumerable<TResult>> CreateQueryExecutor<TResult>([NotNull] QueryModel queryModel)
         {
             Check.NotNull(queryModel, nameof(queryModel));
+
+            QueryCompilationContext.LinqOperatorProvider = new LinqOperatorProvider();
 
             using (QueryCompilationContext.Logger.BeginScopeImpl(this))
             {
@@ -109,6 +111,8 @@ namespace Microsoft.Data.Entity.Query
         public virtual Func<QueryContext, IAsyncEnumerable<TResult>> CreateAsyncQueryExecutor<TResult>([NotNull] QueryModel queryModel)
         {
             Check.NotNull(queryModel, nameof(queryModel));
+
+            QueryCompilationContext.LinqOperatorProvider = new AsyncLinqOperatorProvider();
 
             using (QueryCompilationContext.Logger.BeginScopeImpl(this))
             {

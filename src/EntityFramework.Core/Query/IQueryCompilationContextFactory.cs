@@ -5,7 +5,6 @@ namespace Microsoft.Data.Entity.Query
 {
     public interface IQueryCompilationContextFactory
     {
-        QueryCompilationContext CreateContext();
-        QueryCompilationContext CreateAsyncContext();
+        QueryCompilationContext Create();
     }
 }

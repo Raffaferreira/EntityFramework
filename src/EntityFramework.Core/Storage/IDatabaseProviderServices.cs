@@ -22,5 +22,6 @@ namespace Microsoft.Data.Entity.Storage
         IQueryContextFactory QueryContextFactory { get; }
         IQueryCompilationContextFactory QueryCompilationContextFactory { get; }
         ICompiledQueryCacheKeyGenerator CompiledQueryCacheKeyGenerator { get; }
+        IResultOperatorHandler ResultOperatorHandler { get; }
     }
 }

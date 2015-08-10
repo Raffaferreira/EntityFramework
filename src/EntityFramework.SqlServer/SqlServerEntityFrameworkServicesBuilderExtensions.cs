@@ -54,7 +54,8 @@ namespace Microsoft.Framework.DependencyInjection
         private static IServiceCollection AddQuery(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddScoped<SqlServerQueryCompilationContextFactory>();
+                .AddScoped<SqlServerQueryCompilationContextFactory>()
+                .AddTransient<SqlServerQueryCompilationContext>();
         }
     }
 }

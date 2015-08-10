@@ -11,6 +11,7 @@ using Microsoft.Data.Entity.Metadata.Internal;
 using Microsoft.Data.Entity.Query.Annotations;
 using Microsoft.Data.Entity.Query.ExpressionVisitors;
 using Microsoft.Data.Entity.Query.Internal;
+using Microsoft.Data.Entity.Storage;
 using Microsoft.Data.Entity.Utilities;
 using Microsoft.Framework.Logging;
 using Remotion.Linq;
@@ -26,24 +27,21 @@ namespace Microsoft.Data.Entity.Query
 
         protected QueryCompilationContext(
             [NotNull] IModel model,
-            [NotNull] ILogger logger,
-            [NotNull] ILinqOperatorProvider linqOperatorProvider,
+            [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IResultOperatorHandler resultOperatorHandler,
             [NotNull] IEntityMaterializerSource entityMaterializerSource,
             [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
             [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource)
         {
             Check.NotNull(model, nameof(model));
-            Check.NotNull(logger, nameof(logger));
-            Check.NotNull(linqOperatorProvider, nameof(linqOperatorProvider));
+            Check.NotNull(loggerFactory, nameof(loggerFactory));
             Check.NotNull(resultOperatorHandler, nameof(resultOperatorHandler));
             Check.NotNull(entityMaterializerSource, nameof(entityMaterializerSource));
             Check.NotNull(entityKeyFactorySource, nameof(entityKeyFactorySource));
             Check.NotNull(clrPropertyGetterSource, nameof(clrPropertyGetterSource));
 
             Model = model;
-            Logger = logger;
-            LinqOperatorProvider = linqOperatorProvider;
+            Logger = loggerFactory.CreateLogger<Database>();
             ResultOperatorHandler = resultOperatorHandler;
             EntityMaterializerSource = entityMaterializerSource;
             EntityKeyFactorySource = entityKeyFactorySource;
@@ -52,7 +50,7 @@ namespace Microsoft.Data.Entity.Query
 
         public virtual IModel Model { get; }
         public virtual ILogger Logger { get; }
-        public virtual ILinqOperatorProvider LinqOperatorProvider { get; }
+        public virtual ILinqOperatorProvider LinqOperatorProvider { get; set; }
         public virtual IResultOperatorHandler ResultOperatorHandler { get; }
         public virtual IEntityMaterializerSource EntityMaterializerSource { get; }
         public virtual IEntityKeyFactorySource EntityKeyFactorySource { get; }

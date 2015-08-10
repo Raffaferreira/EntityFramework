@@ -1,46 +1,25 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using JetBrains.Annotations;
-using Microsoft.Data.Entity.ChangeTracking.Internal;
-using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Metadata.Internal;
-using Microsoft.Data.Entity.Storage;
-using Microsoft.Framework.Logging;
+using Microsoft.Data.Entity.Utilities;
+using Microsoft.Framework.DependencyInjection;
 
 namespace Microsoft.Data.Entity.Query
 {
     public class InMemoryQueryCompilationContextFactory : IQueryCompilationContextFactory
     {
-        private readonly IModel _model;
-        private readonly ILogger _logger;
-        private readonly IEntityMaterializerSource _entityMaterializerSource;
-        private readonly IEntityKeyFactorySource _entityKeyFactorySource;
-        private readonly IClrAccessorSource<IClrPropertyGetter> _clrPropertyGetterSource;
+        private readonly IServiceProvider _serviceProvider;
 
-        public InMemoryQueryCompilationContextFactory(
-            [NotNull] IModel model,
-            [NotNull] ILoggerFactory loggerFactory,
-            [NotNull] IEntityMaterializerSource entityMaterializerSource,
-            [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
-            [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource)
+        public InMemoryQueryCompilationContextFactory([NotNull] IServiceProvider serviceProvider)
         {
-            _model = model;
-            _logger = loggerFactory.CreateLogger<Database>();
-            _entityMaterializerSource = entityMaterializerSource;
-            _entityKeyFactorySource = entityKeyFactorySource;
-            _clrPropertyGetterSource = clrPropertyGetterSource;
+            Check.NotNull(serviceProvider, nameof(serviceProvider));
+
+            _serviceProvider = serviceProvider;
         }
 
-        public virtual QueryCompilationContext CreateContext()
-            => new InMemoryQueryCompilationContext(
-                _model,
-                _logger,
-                _entityMaterializerSource,
-                _entityKeyFactorySource,
-                _clrPropertyGetterSource);
-
-        public virtual QueryCompilationContext CreateAsyncContext()
-            => CreateContext();
+        public virtual QueryCompilationContext Create()
+            => _serviceProvider.GetService<InMemoryQueryCompilationContext>();
     }
 }

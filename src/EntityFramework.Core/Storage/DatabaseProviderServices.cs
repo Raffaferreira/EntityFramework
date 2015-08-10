@@ -40,5 +40,8 @@ namespace Microsoft.Data.Entity.Storage
         public abstract IQueryCompilationContextFactory QueryCompilationContextFactory { get; }
         public virtual ICompiledQueryCacheKeyGenerator CompiledQueryCacheKeyGenerator
             => GetService<CompiledQueryCacheKeyGenerator>();
+        public virtual IResultOperatorHandler ResultOperatorHandler
+            => GetService<ResultOperatorHandler>();
+
     }
 }

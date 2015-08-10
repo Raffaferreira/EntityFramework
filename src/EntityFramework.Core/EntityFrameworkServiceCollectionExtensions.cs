@@ -124,9 +124,11 @@ namespace Microsoft.Framework.DependencyInjection
                 .AddScoped<IQueryPreprocessor, QueryPreprocessor>()
                 .AddScoped<IQueryCompiler, QueryCompiler>()
                 .AddScoped<CompiledQueryCacheKeyGenerator>()
+                .AddScoped<ResultOperatorHandler>()
                 .AddScoped(p => GetProviderServices(p).QueryContextFactory)
                 .AddScoped(p => GetProviderServices(p).QueryCompilationContextFactory)
-                .AddScoped(p => GetProviderServices(p).CompiledQueryCacheKeyGenerator);
+                .AddScoped(p => GetProviderServices(p).CompiledQueryCacheKeyGenerator)
+                .AddScoped(p => GetProviderServices(p).ResultOperatorHandler);
         }
 
         private static IDbContextServices GetContextServices(IServiceProvider serviceProvider)
