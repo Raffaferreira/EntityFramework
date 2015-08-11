@@ -284,6 +284,15 @@ namespace Microsoft.Data.Entity.Metadata.Conventions
 
         #endregion
 
+        [Fact]
+        public void Navigation_attribute_convention_runs_for_private_property()
+        {
+            var modelBuilder = new ModelBuilder(new CoreConventionSetBuilder().CreateConventionSet());
+            var referenceBuilder = modelBuilder.Entity<PostDetails>().Reference(typeof(Forum), "Forum").InverseReference();
+
+            Assert.False(referenceBuilder.Metadata.Properties.First().IsNullable);
+        }
+
         private InternalEntityTypeBuilder CreateInternalEntityTypeBuilder<T>()
         {
             var conventionSet = new ConventionSet();
@@ -352,6 +361,9 @@ namespace Microsoft.Data.Entity.Metadata.Conventions
 
             public Post Post { get; set; }
             public Post AnotherPost { get; set; }
+
+            [Required]
+            private Forum Forum { get; set; }
         }
 
         private class SelfReferencingEntity
@@ -386,7 +398,6 @@ namespace Microsoft.Data.Entity.Metadata.Conventions
             public Post Post { get; set; }
 
             public Post AnotherPost { get; set; }
-
         }
     }
 }
