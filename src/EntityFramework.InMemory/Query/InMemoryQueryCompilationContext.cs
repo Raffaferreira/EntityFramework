@@ -7,12 +7,14 @@ using Microsoft.Data.Entity.Metadata.Internal;
 using Microsoft.Data.Entity.Utilities;
 using Microsoft.Framework.Logging;
 using JetBrains.Annotations;
+using System;
 
 namespace Microsoft.Data.Entity.Query
 {
     public class InMemoryQueryCompilationContext : QueryCompilationContext
     {
         public InMemoryQueryCompilationContext(
+            [NotNull] IServiceProvider serviceProvider,
             [NotNull] IModel model,
             [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IResultOperatorHandler resultOperatorHandler,
@@ -20,6 +22,7 @@ namespace Microsoft.Data.Entity.Query
             [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
             [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource)
             : base(
+                Check.NotNull(serviceProvider, nameof(serviceProvider)),
                 Check.NotNull(model, nameof(model)),
                 Check.NotNull(loggerFactory, nameof(loggerFactory)),
                 Check.NotNull(resultOperatorHandler, nameof(resultOperatorHandler)),

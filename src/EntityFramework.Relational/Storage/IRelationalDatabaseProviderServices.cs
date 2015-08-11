@@ -7,6 +7,7 @@ using Microsoft.Data.Entity.Migrations.History;
 using Microsoft.Data.Entity.Migrations.Infrastructure;
 using Microsoft.Data.Entity.Migrations.Sql;
 using Microsoft.Data.Entity.Query.Methods;
+using Microsoft.Data.Entity.Query.Sql;
 using Microsoft.Data.Entity.Update;
 
 namespace Microsoft.Data.Entity.Storage
@@ -29,5 +30,6 @@ namespace Microsoft.Data.Entity.Storage
         IMethodCallTranslator CompositeMethodCallTranslator { get; }
         IMemberTranslator CompositeMemberTranslator { get; }
         IParameterNameGeneratorFactory ParameterNameGeneratorFactory { get; }
+        ISqlQueryGeneratorFactory SqlQueryGeneratorFactory { get; }
     }
 }

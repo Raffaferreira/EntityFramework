@@ -46,7 +46,7 @@
     <Compile Include="Extensions\SqlServerDbContextOptionsBuilder.cs" />
     <Compile Include="ISqlServerConnection.cs" />
     <Compile Include="Metadata\Internal\SqlServerInternalMetadataBuilderExtensions.cs" />
-    <Compile Include="Query\SqlServerQueryCompilationContextFactory.cs" />
+    <Compile Include="Query\Sql\SqlServerQuerySqlGeneratorFactory.cs" />
     <Compile Include="Update\ISqlServerUpdateSqlGenerator.cs" />
     <Compile Include="Metadata\ISqlServerIndexAnnotations.cs" />
     <Compile Include="Metadata\ISqlServerKeyAnnotations.cs" />
@@ -77,8 +77,7 @@
     <Compile Include="Query\Methods\StringSubstringTranslator.cs" />
     <Compile Include="Query\Methods\StringToLowerTranslator.cs" />
     <Compile Include="Query\Methods\StringToUpperTranslator.cs" />
-    <Compile Include="Query\SqlServerQueryCompilationContext.cs" />
-    <Compile Include="Query\SqlServerQuerySqlGenerator.cs" />
+    <Compile Include="Query\Sql\SqlServerQuerySqlGenerator.cs" />
     <Compile Include="SqlServerPropertyBuilderExtensions.cs" />
     <Compile Include="SqlServerCompositeMemberTranslator.cs" />
     <Compile Include="SqlServerConventionSetBuilder.cs" />

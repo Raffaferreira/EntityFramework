@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,6 +27,7 @@ namespace Microsoft.Data.Entity.Query
         private ISet<IQuerySource> _querySourcesRequiringMaterialization;
 
         protected QueryCompilationContext(
+            [NotNull] IServiceProvider serviceProvider,
             [NotNull] IModel model,
             [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IResultOperatorHandler resultOperatorHandler,
@@ -33,6 +35,7 @@ namespace Microsoft.Data.Entity.Query
             [NotNull] IEntityKeyFactorySource entityKeyFactorySource,
             [NotNull] IClrAccessorSource<IClrPropertyGetter> clrPropertyGetterSource)
         {
+            Check.NotNull(serviceProvider, nameof(serviceProvider));
             Check.NotNull(model, nameof(model));
             Check.NotNull(loggerFactory, nameof(loggerFactory));
             Check.NotNull(resultOperatorHandler, nameof(resultOperatorHandler));
@@ -40,6 +43,7 @@ namespace Microsoft.Data.Entity.Query
             Check.NotNull(entityKeyFactorySource, nameof(entityKeyFactorySource));
             Check.NotNull(clrPropertyGetterSource, nameof(clrPropertyGetterSource));
 
+            ServiceProvider = serviceProvider;
             Model = model;
             Logger = loggerFactory.CreateLogger<Database>();
             ResultOperatorHandler = resultOperatorHandler;
@@ -48,9 +52,11 @@ namespace Microsoft.Data.Entity.Query
             ClrPropertyGetterSource = clrPropertyGetterSource;
         }
 
+        public virtual IServiceProvider ServiceProvider { get; }
+
         public virtual IModel Model { get; }
         public virtual ILogger Logger { get; }
-        public virtual ILinqOperatorProvider LinqOperatorProvider { get; set; }
+        public virtual ILinqOperatorProvider LinqOperatorProvider { get;[param: NotNull] set; }
         public virtual IResultOperatorHandler ResultOperatorHandler { get; }
         public virtual IEntityMaterializerSource EntityMaterializerSource { get; }
         public virtual IEntityKeyFactorySource EntityKeyFactorySource { get; }

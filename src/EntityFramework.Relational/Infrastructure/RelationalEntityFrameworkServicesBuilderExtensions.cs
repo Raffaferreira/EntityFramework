@@ -70,7 +70,10 @@ namespace Microsoft.Data.Entity.Infrastructure
         {
             return serviceCollection
                 .AddScoped<RelationalQueryContextFactory>()
-                .AddScoped<RelationalResultOperatorHandler>();
+                .AddScoped<RelationalResultOperatorHandler>()
+                .AddScoped<RelationalQueryCompilationContextFactory>()
+                .AddScoped(p => GetProviderServices(p).SqlQueryGeneratorFactory)                
+                .AddTransient<RelationalQueryCompilationContext>();
         }
 
         private static IRelationalDatabaseProviderServices GetProviderServices(IServiceProvider serviceProvider)

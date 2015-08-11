@@ -2,10 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Data.Entity.Internal;
-using Microsoft.Data.Entity.Query.Sql;
 using Microsoft.Data.Entity.Metadata;
 
 namespace Microsoft.Data.Entity.Query.Internal
@@ -35,12 +34,8 @@ namespace Microsoft.Data.Entity.Query.Internal
                     stringBuilder.IncrementIndent();
 
                     var sqlGenerator = commandBuilder.SqlGeneratorFactory();
-                    var defaultQuerySqlGenerator = sqlGenerator as DefaultQuerySqlGenerator;
-                    var selectExpression = defaultQuerySqlGenerator != null
-                        ? defaultQuerySqlGenerator.SelectExpression
-                        : ((RawSqlQueryGenerator)sqlGenerator).SelectExpression;
 
-                    var sql = selectExpression.ToString();
+                    var sql = sqlGenerator.GenerateSql(new Dictionary<string, object>());
                     var lines = sql.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                     foreach (var line in lines)
                     {

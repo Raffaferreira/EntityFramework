@@ -70,6 +70,8 @@
     <Compile Include="Metadata\RelationalPropertyExtensions.cs" />
     <Compile Include="Migrations\Infrastructure\ModelDifferContext.cs" />
     <Compile Include="Query\Internal\RelationalExpressionPrinter.cs" />
+    <Compile Include="Query\RelationalQueryCompilationContextFactory.cs" />
+    <Compile Include="Query\Sql\ISqlQueryGeneratorFactory.cs" />
     <Compile Include="RelationalReferenceReferenceBuilderExtensions.cs" />
     <Compile Include="Migrations\Builders\ColumnsBuilder.cs" />
     <Compile Include="Migrations\Builders\CreateTableBuilder.cs" />

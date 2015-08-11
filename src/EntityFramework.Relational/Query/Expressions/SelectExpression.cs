@@ -656,7 +656,7 @@ namespace Microsoft.Data.Entity.Query.Expressions
 
         public override string ToString()
         {
-            return new DefaultQuerySqlGenerator(this, null).GenerateSql(new Dictionary<string, object>());
+            throw new NotImplementedException();
         }
 
         // TODO: Make polymorphic

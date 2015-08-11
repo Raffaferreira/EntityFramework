@@ -23,26 +23,32 @@ namespace Microsoft.Data.Entity.Query.Sql
 {
     public class DefaultQuerySqlGenerator : ThrowingExpressionVisitor, ISqlExpressionVisitor, ISqlQueryGenerator
     {
-        private readonly SelectExpression _selectExpression;
+        private SelectExpression _selectExpression;
 
         private IndentedStringBuilder _sql;
         private List<CommandParameter> _commandParameters;
         private IDictionary<string, object> _parameterValues;
         private int _rawSqlParameterIndex;
 
-        public DefaultQuerySqlGenerator(
-            [NotNull] SelectExpression selectExpression,
-            [CanBeNull] IRelationalTypeMapper typeMapper)
+        public DefaultQuerySqlGenerator([CanBeNull] IRelationalTypeMapper typeMapper)
         {
-            Check.NotNull(selectExpression, nameof(selectExpression));
+            Check.NotNull(typeMapper, nameof(typeMapper));
 
-            _selectExpression = selectExpression;
             TypeMapper = typeMapper;
         }
 
-        public virtual IRelationalTypeMapper TypeMapper { get; }
+        protected virtual IRelationalTypeMapper TypeMapper { get; }
 
-        public virtual SelectExpression SelectExpression => _selectExpression;
+        public virtual SelectExpression SelectExpression
+        {
+            get { return _selectExpression; }
+
+            [param: NotNull]
+            set
+            {
+                _selectExpression = value;
+            }
+        }
 
         public virtual string GenerateSql(IDictionary<string, object> parameterValues)
         {
@@ -438,7 +444,7 @@ namespace Microsoft.Data.Entity.Query.Sql
 
                 Visit(inExpression.SubQuery);
             }
-            
+
             return inExpression;
         }
 

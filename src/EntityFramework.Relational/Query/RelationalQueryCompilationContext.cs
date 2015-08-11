@@ -14,17 +14,19 @@ using Microsoft.Data.Entity.Query.Methods;
 using Microsoft.Data.Entity.Query.Sql;
 using Microsoft.Data.Entity.Storage;
 using Microsoft.Data.Entity.Utilities;
+using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Remotion.Linq.Clauses;
 
 namespace Microsoft.Data.Entity.Query
 {
-    public abstract class RelationalQueryCompilationContext : QueryCompilationContext
+    public class RelationalQueryCompilationContext : QueryCompilationContext
     {
         private readonly List<RelationalQueryModelVisitor> _relationalQueryModelVisitors
             = new List<RelationalQueryModelVisitor>();
 
-        protected RelationalQueryCompilationContext(
+        public RelationalQueryCompilationContext(
+            [NotNull] IServiceProvider serviceProvider,
             [NotNull] IModel model,
             [NotNull] ILoggerFactory loggerFactory,
             [NotNull] IResultOperatorHandler resultOperatorHandler,
@@ -37,6 +39,7 @@ namespace Microsoft.Data.Entity.Query
             [NotNull] IRelationalTypeMapper typeMapper,
             [NotNull] IRelationalMetadataExtensionProvider relationalExtensions)
             : base(
+                serviceProvider,
                 model,
                 loggerFactory,
                 resultOperatorHandler,
@@ -81,13 +84,13 @@ namespace Microsoft.Data.Entity.Query
 
             return
                 (from v in _relationalQueryModelVisitors
-                    let selectExpression = v.TryGetQuery(querySource)
-                    where selectExpression != null
-                    select selectExpression)
+                 let selectExpression = v.TryGetQuery(querySource)
+                 where selectExpression != null
+                 select selectExpression)
                     .First();
         }
 
-        public virtual IQueryMethodProvider QueryMethodProvider { get; set; }
+        public virtual IQueryMethodProvider QueryMethodProvider { get; [param:NotNull] set; }
 
         public virtual IMethodCallTranslator CompositeMethodCallTranslator { get; }
 
@@ -99,9 +102,7 @@ namespace Microsoft.Data.Entity.Query
 
         public virtual ISqlQueryGenerator CreateSqlQueryGenerator([NotNull] SelectExpression selectExpression)
         {
-            Check.NotNull(selectExpression, nameof(selectExpression));
-
-            return new DefaultQuerySqlGenerator(selectExpression, TypeMapper);
+            return ServiceProvider.GetService<ISqlQueryGeneratorFactory>().Create(selectExpression);
         }
 
         public virtual IRelationalMetadataExtensionProvider RelationalExtensions { get; }
